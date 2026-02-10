@@ -10,7 +10,41 @@
 .post-header {
     display: flex;
     gap: 12px;
-    align-items: flex-start;
+    align-items: center;
+    position: relative;
+}
+
+.post-actions-top {
+    margin-left: auto;
+}
+
+.action-btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-btn.follow {
+    background-color: transparent;
+    color: #3182ce;
+    border: 1px solid #3182ce;
+}
+
+.action-btn.follow:hover {
+    background-color: #ebf8ff;
+}
+
+.action-btn.message {
+    background-color: #edf2f7;
+    color: #4a5568;
+}
+
+.action-btn.message:hover {
+    background-color: #e2e8f0;
 }
 
 .user-avatar {

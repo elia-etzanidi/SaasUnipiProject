@@ -8,14 +8,6 @@ router.post('/register', userController.registerUser);
 // LOGIN
 router.post('/login', userController.loginUser);
 // GET CURRENT USER
-router.get('/me', auth, async (req, res) => {
-  try {
-    const User = require('../models/User');
-    const user = await User.findById(req.user.id).select('-password'); // Exclude password
-    res.json(user);
-  } catch (err) {
-    res.status(500).send('Server Error');
-  }
-});
+router.get('/me', auth, userController.getMe);
 
 module.exports = router;

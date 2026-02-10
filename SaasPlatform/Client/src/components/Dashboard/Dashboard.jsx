@@ -6,21 +6,34 @@ import PostItem from '../Posts/PostItem.jsx';
 
 const Dashboard = () => {
     const [posts, setPosts] = useState([]);
+    const [user, setUser] = useState(null);
     const token = localStorage.getItem('token');
 
     // 1. Fetch all posts when the page loads
     useEffect(() => {
-        const fetchPosts = async () => {
+        const fetchData = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/posts', {
+                // Fetch User Data
+                const userRes = await axios.get('http://localhost:5000/api/users/me', {
                     headers: { 'x-auth-token': token }
                 });
-                setPosts(res.data);
+                setUser(userRes.data); // Τώρα το user παύει να είναι null!
+
+                // Fetch Posts
+                const postsRes = await axios.get('http://localhost:5000/api/posts', {
+                    headers: { 'x-auth-token': token }
+                });
+                setPosts(postsRes.data);
             } catch (err) {
-                console.error("Error fetching posts:", err);
+                console.error("Error fetching dashboard data:", err);
+                // Αν αποτύχει το login, ίσως πρέπει να τον στείλεις πίσω
+                // navigate('/login'); 
             }
         };
-        fetchPosts();
+
+        if (token) {
+            fetchData();
+        }
     }, [token]);
 
     // 2. Send new post to Backend
@@ -54,11 +67,13 @@ const Dashboard = () => {
             <div className="posts-list">
                 {posts.map(post => (
                     <PostItem 
-                        key={post._id} // MongoDB uses _id, not id
+                        key={post._id}
                         author={post.author}
                         handle={post.handle}
                         content={post.content}
                         tags={post.tags}
+                        postUserId={post.user} // The ID of the person who made the post
+                        currentUserId={user?._id} // Your ID from the "user" state
                     />
                 ))}
             </div>
