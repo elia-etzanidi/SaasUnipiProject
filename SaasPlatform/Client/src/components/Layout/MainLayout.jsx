@@ -15,7 +15,7 @@ const MainLayout = () => {
     return (
         <div className="layout-wrapper">
             <header className="top-bar">
-                <div className="logo">SaaS.Platform</div>
+                <div className="logo">All Devs Feed</div>
                 <div className="nav-actions">
                     <button onClick={handleLogout} className="logout-btn">Logout</button>
                 </div>

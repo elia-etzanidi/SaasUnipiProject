@@ -3,12 +3,19 @@ import './Posts.css';
 
 const CreatePost = ({ onPostSubmit }) => {
     const [content, setContent] = useState('');
+    const [tags, setTags] = useState(''); // New state for tags string
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (content.trim()) {
-            onPostSubmit(content);
-            setContent(''); // Clear the textarea after posting
+            // Convert comma-separated string to an array of trimmed strings
+            const tagsArray = tags.split(',')
+                .map(tag => tag.trim())
+                .filter(tag => tag !== ""); // Remove empty strings
+
+            onPostSubmit(content, tagsArray);
+            setContent('');
+            setTags('');
         }
     };
 
@@ -22,6 +29,18 @@ const CreatePost = ({ onPostSubmit }) => {
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     />
+                    
+                    {/* New Tags Input Field */}
+                    <div className="tags-input-wrapper">
+                        <input 
+                            type="text" 
+                            placeholder="Add tags (e.g. coding, react, saas)" 
+                            value={tags}
+                            onChange={(e) => setTags(e.target.value)}
+                            className="tags-field"
+                        />
+                    </div>
+
                     <div className="post-footer">
                         <button type="submit" className="post-btn" disabled={!content.trim()}>
                             Post

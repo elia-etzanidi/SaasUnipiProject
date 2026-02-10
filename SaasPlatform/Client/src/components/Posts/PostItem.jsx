@@ -1,7 +1,7 @@
 import React from 'react';
 import './Posts.css';
 
-const PostItem = ({ author, handle, content }) => {
+const PostItem = ({ author, handle, content, tags }) => {
     return (
         <div className="post-card">
             <div className="post-header">
@@ -14,6 +14,17 @@ const PostItem = ({ author, handle, content }) => {
             <div className="post-body">
                 <p>{content}</p>
             </div>
+
+            {/* Render tags if they exist */}
+            {tags && tags.length > 0 && (
+                <div className="post-tags">
+                    {tags.map((tag, index) => (
+                        <span key={index} className="tag-badge">
+                            #{tag}
+                        </span>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

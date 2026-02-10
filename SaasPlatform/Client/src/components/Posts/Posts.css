@@ -81,3 +81,42 @@
     line-height: 1.5;
     color: #2d3748;
 }
+
+* Tags Input Field */
+.tags-input-wrapper {
+    margin-top: 10px;
+    border-top: 1px solid #f0f2f5;
+    padding-top: 8px;
+}
+
+.tags-field {
+    width: 100%;
+    border: none;
+    font-size: 0.9rem;
+    color: #4a5568;
+    outline: none;
+    background: transparent;
+}
+
+/* Post Tags Badges */
+.post-tags {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-badge {
+    background-color: #ebf8ff;
+    color: #3182ce;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tag-badge:hover {
+    background-color: #bee3f8;
+}
