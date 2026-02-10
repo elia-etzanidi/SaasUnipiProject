@@ -11,30 +11,30 @@ const Dashboard = () => {
 
     // 1. Fetch all posts when the page loads
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Fetch User Data
-                const userRes = await axios.get('http://localhost:5000/api/users/me', {
-                    headers: { 'x-auth-token': token }
-                });
-                setUser(userRes.data); // Τώρα το user παύει να είναι null!
+    const fetchData = async () => {
+        try {
+            // Fetch User Data
+            const userRes = await axios.get('http://localhost:5000/api/users/me', {
+                headers: { 'x-auth-token': token }
+            });
+            setUser(userRes.data); // Τώρα το user παύει να είναι null!
 
-                // Fetch Posts
-                const postsRes = await axios.get('http://localhost:5000/api/posts', {
-                    headers: { 'x-auth-token': token }
-                });
-                setPosts(postsRes.data);
-            } catch (err) {
-                console.error("Error fetching dashboard data:", err);
-                // Αν αποτύχει το login, ίσως πρέπει να τον στείλεις πίσω
-                // navigate('/login'); 
-            }
-        };
-
-        if (token) {
-            fetchData();
+            // Fetch Posts
+            const postsRes = await axios.get('http://localhost:5000/api/posts', {
+                headers: { 'x-auth-token': token }
+            });
+            setPosts(postsRes.data);
+        } catch (err) {
+            console.error("Error fetching dashboard data:", err);
+            // Αν αποτύχει το login, ίσως πρέπει να τον στείλεις πίσω
+            // navigate('/login'); 
         }
-    }, [token]);
+    };
+
+    if (token) {
+        fetchData();
+    }
+}, [token]);
 
     // 2. Send new post to Backend
     const addNewPost = async (content, tagsArray) => {
@@ -74,6 +74,7 @@ const Dashboard = () => {
                         tags={post.tags}
                         postUserId={post.user} // The ID of the person who made the post
                         currentUserId={user?._id} // Your ID from the "user" state
+                        currentUserContacts={user.contacts} // User contacts
                     />
                 ))}
             </div>

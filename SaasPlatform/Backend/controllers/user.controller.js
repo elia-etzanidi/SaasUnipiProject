@@ -70,3 +70,25 @@ exports.getMe = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+// FOLLOW USER (ADD TO CONTACTS)
+exports.followUser = async (req, res) => {
+    try {
+        const userToFollowId = req.params.id;
+        const currentUserId = req.user.id;
+
+        if (userToFollowId === currentUserId) {
+            return res.status(400).json({ msg: "You cannot add yourself to contacts" });
+        }
+
+        // addToSet ensures no duplicates
+        await User.findByIdAndUpdate(currentUserId, {
+            $addToSet: { contacts: userToFollowId }
+        });
+
+        res.json({ msg: "Added to contacts successfully" });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
