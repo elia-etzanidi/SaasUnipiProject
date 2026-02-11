@@ -3,11 +3,13 @@ import axios from 'axios';
 import './Dashboard.css';
 import CreatePost from '../Posts/CreatePost.jsx';
 import PostItem from '../Posts/PostItem.jsx';
+import { useOutletContext } from 'react-router-dom';
 
 const Dashboard = () => {
     const [posts, setPosts] = useState([]);
     const [user, setUser] = useState(null);
     const token = localStorage.getItem('token');
+    const setActiveChat = useOutletContext();
 
     // Fetch all posts when the page loads
     useEffect(() => {
@@ -34,7 +36,7 @@ const Dashboard = () => {
     }
 }, [token]);
 
-    // 2. Send new post to Backend
+    // Send new post to Backend
     const addNewPost = async (content, tagsArray) => {
         try {
             const config = {
@@ -73,6 +75,8 @@ const Dashboard = () => {
                         postUserId={post.user} // The ID of the person who made the post
                         currentUserId={user?._id} // Your ID from the "user" state
                         currentUserContacts={user.contacts} // User contacts
+                        openChat={setActiveChat} 
+                        authorFullObject={{ _id: post.user, fullName: post.author }}
                     />
                 ))}
             </div>

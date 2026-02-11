@@ -16,6 +16,8 @@ const postRoutes = require('./routes/posts.route');
 app.use('/api/posts', postRoutes);
 const searchRoutes = require('./routes/search.route');
 app.use('/api/search', searchRoutes);
+const messageRoutes = require('./routes/message.route');
+app.use('/api/messages', messageRoutes);
 
 // connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

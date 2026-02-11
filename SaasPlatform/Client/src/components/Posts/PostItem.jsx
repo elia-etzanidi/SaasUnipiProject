@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Posts.css';
 import axios from 'axios';
 
-const PostItem = ({ author, handle, content, tags, postUserId, currentUserId, currentUserContacts }) => {
+const PostItem = ({ author, handle, content, tags, postUserId, currentUserId, currentUserContacts, openChat, authorFullObject }) => {
     // Check if the post belongs to the logged-in user
     const isOwnPost = postUserId === currentUserId;
     
@@ -50,7 +50,12 @@ const PostItem = ({ author, handle, content, tags, postUserId, currentUserId, cu
                 {!isOwnPost && (
                     <div className="post-actions-top">
                         {isFollowing ? (
-                            <button className="action-btn message">Message</button>
+                            <button 
+                                className="action-btn message" 
+                                onClick={() => openChat(authorFullObject)}
+                            >
+                                Message
+                            </button>
                         ) : (
                             <button className="action-btn follow" onClick={handleFollow}>+ Follow</button>
                         )}

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './MainLayout.css';
+import ChatWindow from '../Chat/ChatWindow.jsx';
 
 const MainLayout = () => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('friends');
     const [searchQuery, setSearchQuery] = useState('');
+    const [activeChat, setActiveChat] = useState(null);
     const token = localStorage.getItem('token');
     useEffect(() => {
         const fetchUser = async () => {
@@ -90,7 +92,12 @@ const MainLayout = () => {
                                 // Contact list from user data
                                 user && user.contacts && user.contacts.length > 0 ? (
                                     user.contacts.map((contact) => (
-                                        <div key={contact._id} className="user-item">
+                                        <div 
+                                            key={contact._id} 
+                                            className="user-item" 
+                                            onClick={() => setActiveChat(contact)}
+                                            style={{ cursor: 'pointer' }}
+                                        >
                                             <div className="avatar-small"></div>
                                             <span>{contact.fullName}</span>
                                         </div>
@@ -112,8 +119,12 @@ const MainLayout = () => {
                 </aside>
 
                 <main className="main-content">
-                    <Outlet />
+                    <Outlet context={setActiveChat} />
                 </main>
+                <ChatWindow 
+                    receiver={activeChat} 
+                    onClose={() => setActiveChat(null)} 
+                />
             </div>
         </div>
     );

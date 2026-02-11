@@ -27,15 +27,15 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Check if user exists
+    // Check if user exists
     let user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: "Wrong email or password" });
 
-    // 2. Check password
+    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Wrong email or password" });
 
-    // 3. Create JWT token
+    // Create JWT token
     const token = jwt.sign(
       { id: user._id }, 
       process.env.JWT_SECRET, 
@@ -90,7 +90,7 @@ exports.googleLogin = async (req, res) => {
         );
 
         res.json({
-            token: jwtToken, // Εδώ στέλνουμε το δικό μας πλέον token στο frontend
+            token: jwtToken, // send the JWT token to the client
             isNewUser, 
             user: {
                 id: user._id,
@@ -108,7 +108,6 @@ exports.updateProfile = async (req, res) => {
     try {
         const { interests, courses } = req.body;
         
-        // Το req.user.id έρχεται από το auth middleware
         const user = await User.findByIdAndUpdate(
             req.user.id,
             { $set: { interests, courses } },
