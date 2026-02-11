@@ -1,0 +1,87 @@
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
+import PostItem from '../Posts/PostItem';
+import UserCard from '../Users/UserCard';
+import './SearchPage.css';
+
+const SearchPage = () => {
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get('q'); // Takes q from url /search?q=react
+    const [results, setResults] = useState({ users: [], posts: [] });
+    const [currentUser, setCurrentUser] = useState(null);
+    const [activeTab, setActiveTab] = useState('posts'); // Default to showing posts
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchResults = async () => {
+            setLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+                const config = { headers: { 'x-auth-token': token } };
+
+                // Search results
+                const searchRes = await axios.get(`http://localhost:5000/api/search?q=${query}`, config);
+                
+                // User contacts for follow button logic
+                const userRes = await axios.get('http://localhost:5000/api/users/me', config);
+
+                setResults(searchRes.data);
+                setCurrentUser(userRes.data);
+            } catch (err) {
+                console.error("Search error:", err);
+            }
+            setLoading(false);
+        };
+
+        if (query) fetchResults();
+    }, [query]);
+
+    if (loading) return <div className="loader">Searching...</div>;
+
+    return (
+        <div className="search-page-container">
+            <h2>Results for "{query}"</h2>
+
+            <div className="search-tabs">
+                <button 
+                    className={activeTab === 'posts' ? 'tab-btn active' : 'tab-btn'} 
+                    onClick={() => setActiveTab('posts')}
+                >
+                    Posts ({results.posts.length})
+                </button>
+                <button 
+                    className={activeTab === 'users' ? 'tab-btn active' : 'tab-btn'} 
+                    onClick={() => setActiveTab('users')}
+                >
+                    People ({results.users.length})
+                </button>
+            </div>
+
+            <div className="results-content">
+                {activeTab === 'posts' ? (
+                    results.posts.length > 0 ? (
+                        results.posts.map(post => (
+                            <PostItem 
+                                key={post._id} 
+                                {...post} 
+                                // Ασφαλής πρόσβαση στο ID του χρήστη που έκανε το post
+                                postUserId={post.user?._id || post.user} 
+                                currentUserId={currentUser?._id}
+                                currentUserContacts={currentUser?.contacts}
+                            />
+                        ))
+                    ) : <p>No posts found with this tag.</p>
+                ) : (
+                    results.users.length > 0 ? (
+                        results.users.map(user => (
+                            <UserCard key={user._id} user={user} />
+                        ))
+                    ) : <p>No developers found with this name or interest.</p>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default SearchPage;

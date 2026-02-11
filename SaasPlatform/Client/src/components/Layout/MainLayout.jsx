@@ -7,6 +7,7 @@ const MainLayout = () => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('friends');
+    const [searchQuery, setSearchQuery] = useState('');
     const token = localStorage.getItem('token');
     useEffect(() => {
         const fetchUser = async () => {
@@ -27,10 +28,28 @@ const MainLayout = () => {
         navigate('/login');
     };
 
+    const handleSearch = (e) => {
+    if (e.key === 'Enter' && searchQuery.trim() !== '') {
+        navigate(`/search?q=${searchQuery}`);
+    }
+};
+
     return (
         <div className="layout-wrapper">
             <header className="top-bar">
                 <div className="logo">All Devs Feed</div>
+                {/* Search Bar in the middle*/}
+                <div className="search-container">
+                    <input 
+                        type="text" 
+                        placeholder="Search for posts or users..." 
+                        className="search-input"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleSearch}
+                    />
+                    <span className="search-icon">🔍</span>
+                </div>
                 <div className="nav-actions">
                     <button onClick={handleLogout} className="logout-btn">Logout</button>
                 </div>

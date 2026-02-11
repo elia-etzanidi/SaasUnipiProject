@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [user, setUser] = useState(null);
     const token = localStorage.getItem('token');
 
-    // 1. Fetch all posts when the page loads
+    // Fetch all posts when the page loads
     useEffect(() => {
     const fetchData = async () => {
         try {
@@ -17,7 +17,7 @@ const Dashboard = () => {
             const userRes = await axios.get('http://localhost:5000/api/users/me', {
                 headers: { 'x-auth-token': token }
             });
-            setUser(userRes.data); // Τώρα το user παύει να είναι null!
+            setUser(userRes.data);
 
             // Fetch Posts
             const postsRes = await axios.get('http://localhost:5000/api/posts', {
@@ -26,8 +26,6 @@ const Dashboard = () => {
             setPosts(postsRes.data);
         } catch (err) {
             console.error("Error fetching dashboard data:", err);
-            // Αν αποτύχει το login, ίσως πρέπει να τον στείλεις πίσω
-            // navigate('/login'); 
         }
     };
 

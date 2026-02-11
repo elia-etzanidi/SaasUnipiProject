@@ -3,6 +3,7 @@ import Login from './components/Login/Login.jsx';
 import Register from './components/Register/Register.jsx';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
 import MainLayout from './components/Layout/MainLayout.jsx';
+import SearchPage from './components/Search/SearchPage.jsx';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         {/* Protected Routes - With MainLayout */}
         <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="search" element={<SearchPage />} />
         </Route>
 
         {/* Default Redirect */}
