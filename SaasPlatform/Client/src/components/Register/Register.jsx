@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    // Manual Registration
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -34,6 +36,27 @@ const Register = () => {
             navigate('/login');
         } catch (err) {
             alert(err.response?.data?.msg || 'An error occurred during registration');
+        }
+    };
+
+    // Google Registration Logic
+    const handleGoogleSuccess = async (credentialResponse) => {
+        try {
+            const res = await axios.post('http://localhost:5000/api/auth/google', {
+                token: credentialResponse.credential
+            });
+
+            localStorage.setItem('token', res.data.token);
+
+            // Αν ο χρήστης είναι νέος, πρέπει να συμπληρώσει τα interests/courses
+            if (res.data.isNewUser) {
+                navigate('/complete-profile');
+            } else {
+                navigate('/dashboard');
+            }
+        } catch (err) {
+            console.error("Google Auth Error", err);
+            alert("Google Sign up failed.");
         }
     };
 
@@ -63,6 +86,16 @@ const Register = () => {
                         <input type="text" name="courses" placeholder="e.g. Web Dev, Databases" onChange={handleChange} />
                     </div>
                     <button type="submit" className="btn-submit">Sign Up</button>
+                    {/* Google Sign Up Button */}
+                    <div className="separator"><span>OR</span></div>
+                    <div className="google-btn-container">
+                        <GoogleLogin 
+                            onSuccess={handleGoogleSuccess}
+                            onError={() => console.log('Login Failed')}
+                            text="signup_with"
+                            width="450"
+                        />
+                    </div>
                 </form>
             </div>
         </div>

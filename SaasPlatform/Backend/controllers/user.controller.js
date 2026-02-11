@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // SIGN UP
 exports.registerUser = async (req, res) => {
@@ -20,7 +22,7 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-// LOGIN
+// MANUAL LOGIN
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -53,6 +55,75 @@ exports.loginUser = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
+// GOOGLE LOGIN
+exports.googleLogin = async (req, res) => {
+    const { token } = req.body;
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID
+        });
+        const { email, name, sub } = ticket.getPayload();
+
+        let user = await User.findOne({ email });
+        let isNewUser = false;
+
+        if (!user) {
+            user = new User({
+                fullName: name || email.split('@')[0],
+                email,
+                password: 'google-auth-' + sub, // Dummy password
+                interests: [],
+                courses: []
+            });
+            await user.save();
+            isNewUser = true;
+        } else if (user.interests.length === 0 && user.courses.length === 0) {
+            isNewUser = true;
+        }
+
+        const jwtToken = jwt.sign(
+            { id: user._id }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '1d' } 
+        );
+
+        res.json({
+            token: jwtToken, // Εδώ στέλνουμε το δικό μας πλέον token στο frontend
+            isNewUser, 
+            user: {
+                id: user._id,
+                fullName: user.fullName,
+                email: user.email
+            }
+        });
+    } catch (err) {
+        res.status(401).json({ msg: 'Google verification failed' });
+    }
+};
+
+// COMPLETE PROFILE (for Google users)
+exports.updateProfile = async (req, res) => {
+    try {
+        const { interests, courses } = req.body;
+        
+        // Το req.user.id έρχεται από το auth middleware
+        const user = await User.findByIdAndUpdate(
+            req.user.id,
+            { $set: { interests, courses } },
+            { new: true }
+        ).select('-password');
+
+        if (!user) return res.status(404).json({ msg: 'User not found' });
+
+        res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
 
 // GET CURRENT USER
 exports.getMe = async (req, res) => {

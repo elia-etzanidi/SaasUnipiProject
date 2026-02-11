@@ -82,3 +82,21 @@
 .auth-footer a:hover {
     text-decoration: underline;
 }
+
+.separator {
+    margin: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+    line-height: 0.1em;
+}
+.separator span {
+    background: #fff;
+    padding: 0 10px;
+    color: #a0aec0;
+    font-size: 0.8rem;
+}
+.google-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}

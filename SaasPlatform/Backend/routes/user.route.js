@@ -5,8 +5,12 @@ const auth = require('../middleware/auth');
 
 // SIGN UP
 router.post('/register', userController.registerUser);
-// LOGIN
+// MANUAL LOGIN
 router.post('/login', userController.loginUser);
+// GOOGLE LOGIN
+router.post('/google', userController.googleLogin);
+// COMPLETE PROFILE
+router.put('/profile', auth, userController.updateProfile);
 // GET CURRENT USER
 router.get('/me', auth, userController.getMe);
 // FOLLOW USER
