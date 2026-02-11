@@ -9,9 +9,18 @@ const PostItem = ({ author, handle, content, tags, postUserId, currentUserId, cu
     const [isFollowing, setIsFollowing] = useState(false);
 
     useEffect(() => {
-        // Ελέγχουμε αν το postUserId περιέχεται ήδη στα contacts του χρήστη
-        if (currentUserContacts && currentUserContacts.includes(postUserId)) {
-            setIsFollowing(true);
+        if (currentUserContacts && currentUserContacts.length > 0) {
+            // look for the postUserId in the currentUserContacts
+            const isAlreadyContact = currentUserContacts.some(contact => {
+                // if contact is an object, use its _id, otherwise assume it's already an ID
+                const contactId = contact._id ? contact._id : contact;
+                
+                return String(contactId) === String(postUserId);
+            });
+
+            setIsFollowing(isAlreadyContact);
+        } else {
+            setIsFollowing(false); // if no contacts, then not following anyone
         }
     }, [currentUserContacts, postUserId]);
 
@@ -22,6 +31,7 @@ const PostItem = ({ author, handle, content, tags, postUserId, currentUserId, cu
                 headers: { 'x-auth-token': token }
             });
             setIsFollowing(true);
+            window.location.reload(); // Refresh the page to update the contacts list
         } catch (err) {
             console.error("Error adding contact:", err);
         }

@@ -57,17 +57,20 @@ exports.loginUser = async (req, res) => {
 // GET CURRENT USER
 exports.getMe = async (req, res) => {
     try {
-        const User = require('../models/User'); // Better at the top of the file, but keep it here for now if you prefer
-        const user = await User.findById(req.user.id).select('-password');
+        const user = await User.findById(req.user.id)
+            .select('-password')
+            .populate('contacts', 'fullName');
         
+        // check if user exists
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
         }
-        
-        res.json(user);
+
+        return res.json(user);
+
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 };
 

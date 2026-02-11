@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './MainLayout.css';
 
 const MainLayout = () => {
+    const [user, setUser] = useState(null);
     const navigate = useNavigate();
-
     const [activeTab, setActiveTab] = useState('friends');
+    const token = localStorage.getItem('token');
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/users/me', {
+                    headers: { 'x-auth-token': token }
+                });
+                setUser(res.data);
+            } catch (err) {
+                console.error("Error fetching user for sidebar", err);
+            }
+        };
+        if (token) fetchUser();
+    }, [token]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -53,13 +68,19 @@ const MainLayout = () => {
                         {/* Dynamic List based on Active Tab */}
                         <div className="user-list">
                             {activeTab === 'friends' ? (
-                                ['Sara Mitchell', 'Alex Chen', 'Marcus Webb'].map((name, i) => (
-                                    <div key={i} className="user-item">
-                                        <div className="avatar-small"></div>
-                                        <span>{name}</span>
-                                    </div>
-                                ))
+                                // Contact list from user data
+                                user && user.contacts && user.contacts.length > 0 ? (
+                                    user.contacts.map((contact) => (
+                                        <div key={contact._id} className="user-item">
+                                            <div className="avatar-small"></div>
+                                            <span>{contact.fullName}</span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="empty-msg">No friends followed yet.</p>
+                                )
                             ) : (
+                                // Static groups for demonstration
                                 ['React Developers', 'Node Enthusiasts', 'UI/UX Design'].map((group, i) => (
                                     <div key={i} className="user-item">
                                         <div className="avatar-small square"></div>
