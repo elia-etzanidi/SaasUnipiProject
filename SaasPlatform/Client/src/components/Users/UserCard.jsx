@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UserCard.css';
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, isFriend, isMe, onFollow, onMessage }) => {
     const navigate = useNavigate();
 
     return (
@@ -34,7 +34,17 @@ const UserCard = ({ user }) => {
             </div>
             
             <div className="user-card-actions">
-                <button className="action-btn follow">+ Follow</button>
+                {isMe ? (
+                    <span className="action-btn">You</span>
+                ) : isFriend ? (
+                    <button className="action-btn message" onClick={onMessage}>
+                        Message
+                    </button>
+                ) : (
+                    <button className="action-btn follow" onClick={onFollow}>
+                        Follow
+                    </button>
+                )}
             </div>
         </div>
     );

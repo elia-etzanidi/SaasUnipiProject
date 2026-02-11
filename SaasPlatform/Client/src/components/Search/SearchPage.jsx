@@ -4,6 +4,7 @@ import axios from 'axios';
 import PostItem from '../Posts/PostItem';
 import UserCard from '../Users/UserCard';
 import './SearchPage.css';
+import { useOutletContext } from 'react-router-dom';
 
 const SearchPage = () => {
     const [searchParams] = useSearchParams();
@@ -12,6 +13,7 @@ const SearchPage = () => {
     const [currentUser, setCurrentUser] = useState(null);
     const [activeTab, setActiveTab] = useState('posts'); // Default to showing posts
     const [loading, setLoading] = useState(true);
+    const setActiveChat = useOutletContext();
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -36,6 +38,25 @@ const SearchPage = () => {
 
         if (query) fetchResults();
     }, [query]);
+
+    const handleFollow = async (userId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const res = await axios.put(`http://localhost:5000/api/users/follow/${userId}`, {}, {
+                headers: { 'x-auth-token': token }
+            });
+            
+            // Update current user data to reflect new follow status
+            setCurrentUser(res.data.user); 
+        } catch (err) {
+            console.error("Follow error:", err);
+        }
+    };
+
+    const handleMessageClick = (targetUser) => {
+        // Updates the state in MainLayout
+        setActiveChat(targetUser);
+    };
 
     if (loading) return <div className="loader">Searching...</div>;
 
@@ -75,7 +96,13 @@ const SearchPage = () => {
                 ) : (
                     results.users.length > 0 ? (
                         results.users.map(user => (
-                            <UserCard key={user._id} user={user} />
+                            <UserCard 
+                                key={user._id} 
+                                user={user} 
+                                isFriend={currentUser?.contacts?.some(c => (c._id || c) === user._id)}
+                                onFollow={() => handleFollow(user._id)}
+                                onMessage={() => handleMessageClick(user)}
+                            />
                         ))
                     ) : <p>No developers found with this name or interest.</p>
                 )}
