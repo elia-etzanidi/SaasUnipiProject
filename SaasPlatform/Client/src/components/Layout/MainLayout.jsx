@@ -3,14 +3,17 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './MainLayout.css';
 import ChatWindow from '../Chat/ChatWindow.jsx';
+import Navbar from './Navbar.jsx';
+import Sidebar from './Sidebar.jsx';
 
 const MainLayout = () => {
     const [user, setUser] = useState(null);
-    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('friends');
     const [searchQuery, setSearchQuery] = useState('');
     const [activeChat, setActiveChat] = useState(null);
+    const navigate = useNavigate();
     const token = localStorage.getItem('token');
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -18,9 +21,7 @@ const MainLayout = () => {
                     headers: { 'x-auth-token': token }
                 });
                 setUser(res.data);
-            } catch (err) {
-                console.error("Error fetching user for sidebar", err);
-            }
+            } catch (err) { console.error("Error fetching user", err); }
         };
         if (token) fetchUser();
     }, [token]);
@@ -31,96 +32,33 @@ const MainLayout = () => {
     };
 
     const handleSearch = (e) => {
-    if (e.key === 'Enter' && searchQuery.trim() !== '') {
-        navigate(`/search?q=${searchQuery}`);
-    }
-};
+        if (e.key === 'Enter' && searchQuery.trim() !== '') {
+            navigate(`/search?q=${searchQuery}`);
+        }
+    };
 
     return (
         <div className="layout-wrapper">
-            <header className="top-bar">
-                <div className="logo">All Devs Feed</div>
-                {/* Search Bar in the middle*/}
-                <div className="search-container">
-                    <input 
-                        type="text" 
-                        placeholder="Search for posts or users..." 
-                        className="search-input"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyDown={handleSearch}
-                    />
-                    <span className="search-icon">🔍</span>
-                </div>
-                <div className="nav-actions">
-                    <button onClick={handleLogout} className="logout-btn">Logout</button>
-                </div>
-            </header>
+            <Navbar 
+                searchQuery={searchQuery} 
+                setSearchQuery={setSearchQuery} 
+                onSearch={handleSearch} 
+                onLogout={handleLogout} 
+            />
 
             <div className="layout-body">
-                <aside className="sidebar">
-                    <nav className="sidebar-nav">
-                        <ul>
-                            <li onClick={() => navigate('/dashboard')}>Home</li>
-                            <li onClick={() => navigate('/profile')}>Profile</li>
-                            <li onClick={() => navigate('/settings')}>Settings</li>
-                        </ul>
-                    </nav>
-                    
-                    <div className="community-section">
-                        <h3>Community</h3>
-                        
-                        {/* Tab Headers */}
-                        <div className="community-tabs">
-                            <span 
-                                className={activeTab === 'friends' ? 'tab-item active' : 'tab-item'} 
-                                onClick={() => setActiveTab('friends')}
-                            >
-                                Friends
-                            </span>
-                            <span 
-                                className={activeTab === 'groups' ? 'tab-item active' : 'tab-item'} 
-                                onClick={() => setActiveTab('groups')}
-                            >
-                                Groups
-                            </span>
-                        </div>
-
-                        {/* Dynamic List based on Active Tab */}
-                        <div className="user-list">
-                            {activeTab === 'friends' ? (
-                                // Contact list from user data
-                                user && user.contacts && user.contacts.length > 0 ? (
-                                    user.contacts.map((contact) => (
-                                        <div 
-                                            key={contact._id} 
-                                            className="user-item" 
-                                            onClick={() => setActiveChat(contact)}
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            <div className="avatar-small"></div>
-                                            <span>{contact.fullName}</span>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p className="empty-msg">No friends followed yet.</p>
-                                )
-                            ) : (
-                                // Static groups for demonstration
-                                ['React Developers', 'Node Enthusiasts', 'UI/UX Design'].map((group, i) => (
-                                    <div key={i} className="user-item">
-                                        <div className="avatar-small square"></div>
-                                        <span>{group}</span>
-                                    </div>
-                                ))
-                            )}
-                        </div>
-                    </div>
-                </aside>
+                <Sidebar 
+                    user={user} 
+                    activeTab={activeTab} 
+                    setActiveTab={setActiveTab} 
+                    onUserClick={setActiveChat}
+                    navigate={navigate}
+                />
 
                 <main className="main-content">
                     <Outlet context={setActiveChat} />
                 </main>
+
                 <ChatWindow 
                     receiver={activeChat} 
                     onClose={() => setActiveChat(null)} 
