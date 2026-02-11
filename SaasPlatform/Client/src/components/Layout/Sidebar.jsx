@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Sidebar = ({ user, activeTab, setActiveTab, onUserClick, onAddGroup, navigate }) => {
+const Sidebar = ({ user, activeTab, setActiveTab, onUserClick, onAddGroup, navigate, refreshTrigger }) => {
     const [groups, setGroups] = useState([]);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ const Sidebar = ({ user, activeTab, setActiveTab, onUserClick, onAddGroup, navig
             }
         };
         fetchGroups();
-    }, []); // Load groups once when the component mounts
+    }, [refreshTrigger]); // Load groups once when the component mounts
 
     return (
         <aside className="sidebar">

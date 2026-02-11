@@ -13,6 +13,7 @@ const MainLayout = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeChat, setActiveChat] = useState(null);
     const [showGroupModal, setShowGroupModal] = useState(false);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
 
@@ -23,7 +24,12 @@ const MainLayout = () => {
                     headers: { 'x-auth-token': token }
                 });
                 setUser(res.data);
-            } catch (err) { console.error("Error fetching user", err); }
+            } catch (err) {
+                if (err.response && err.response.status === 401) {
+                    localStorage.removeItem('token'); // Καθαρίζουμε το ληγμένο token
+                    navigate('/login');
+                }
+            }
         };
         if (token) fetchUser();
     }, [token]);
@@ -40,6 +46,7 @@ const MainLayout = () => {
     };
 
     const handleGroupCreated = (newGroup) => {
+        setRefreshTrigger(prev => prev + 1);
         setActiveTab('groups');
         setActiveChat(newGroup);
         setShowGroupModal(false);
@@ -62,6 +69,7 @@ const MainLayout = () => {
                     onUserClick={setActiveChat}
                     onAddGroup={() => setShowGroupModal(true)}
                     navigate={navigate}
+                    refreshTrigger={refreshTrigger}
                 />
 
                 <main className="main-content">
@@ -72,7 +80,7 @@ const MainLayout = () => {
                     <CreateGroupModal 
                         friends={user?.contacts || []} 
                         onClose={() => setShowGroupModal(false)}
-                        onGroupCreated={handleGroupCreated} // <--- Περνάμε το νέο prop
+                        onGroupCreated={handleGroupCreated}
                     />
                 )}
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './CreateGroupModal.css';
 
-const CreateGroupModal = ({ friends, onClose }) => {
+const CreateGroupModal = ({ friends, onClose, onGroupCreated }) => {
     const [groupName, setGroupName] = useState('');
     const [selectedFriends, setSelectedFriends] = useState([]);
 
@@ -19,14 +19,18 @@ const CreateGroupModal = ({ friends, onClose }) => {
         if (!groupName || selectedFriends.length === 0) return alert("Please add a name and at least one friend.");
 
         try {
-            await axios.post('http://localhost:5000/api/groups', {
+            const res = await axios.post('http://localhost:5000/api/groups', {
                 name: groupName,
                 members: selectedFriends
             }, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
-            onGroupCreated(res.data);
-            window.location.reload(); // Refresh to show the new group in the sidebar
+
+            // Notify parent component about the new group so 
+            // it can update the UI accordingly
+            if (onGroupCreated) {
+                onGroupCreated(res.data);
+            }
         } catch (err) {
             console.error("Error creating group", err);
         }
