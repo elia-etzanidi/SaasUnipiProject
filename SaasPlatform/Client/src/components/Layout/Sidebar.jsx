@@ -1,4 +1,4 @@
-const Sidebar = ({ user, activeTab, setActiveTab, onUserClick, navigate }) => {
+const Sidebar = ({ user, activeTab, setActiveTab, onUserClick, onAddGroup, navigate }) => {
     return (
         <aside className="sidebar">
             <nav className="sidebar-nav">
@@ -18,12 +18,17 @@ const Sidebar = ({ user, activeTab, setActiveTab, onUserClick, navigate }) => {
                     >
                         Friends
                     </span>
-                    <span 
-                        className={activeTab === 'groups' ? 'tab-item active' : 'tab-item'} 
-                        onClick={() => setActiveTab('groups')}
-                    >
-                        Groups
-                    </span>
+                    <div className="group-tab-wrapper">
+                        <span 
+                            className={activeTab === 'groups' ? 'tab-item active' : 'tab-item'} 
+                            onClick={() => setActiveTab('groups')}
+                        >
+                            Groups
+                        </span>
+                        {activeTab === 'groups' && (
+                            <button className="add-group-btn" onClick={onAddGroup}>+</button>
+                        )}
+                    </div>
                 </div>
 
                 <div className="user-list">

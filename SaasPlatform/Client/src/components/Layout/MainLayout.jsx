@@ -5,12 +5,14 @@ import './MainLayout.css';
 import ChatWindow from '../Chat/ChatWindow.jsx';
 import Navbar from './Navbar.jsx';
 import Sidebar from './Sidebar.jsx';
+import CreateGroupModal from '../CreateGroup/CreateGroupModal';
 
 const MainLayout = () => {
     const [user, setUser] = useState(null);
     const [activeTab, setActiveTab] = useState('friends');
     const [searchQuery, setSearchQuery] = useState('');
     const [activeChat, setActiveChat] = useState(null);
+    const [showGroupModal, setShowGroupModal] = useState(false);
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
 
@@ -52,12 +54,20 @@ const MainLayout = () => {
                     activeTab={activeTab} 
                     setActiveTab={setActiveTab} 
                     onUserClick={setActiveChat}
+                    onAddGroup={() => setShowGroupModal(true)}
                     navigate={navigate}
                 />
 
                 <main className="main-content">
                     <Outlet context={setActiveChat} />
                 </main>
+
+                {showGroupModal && (
+                    <CreateGroupModal 
+                        friends={user?.contacts || []} 
+                        onClose={() => setShowGroupModal(false)} 
+                    />
+                )}
 
                 <ChatWindow 
                     receiver={activeChat} 

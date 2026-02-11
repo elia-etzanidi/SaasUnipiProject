@@ -185,3 +185,29 @@
     border-radius: 4px; 
     background-color: #a0aec0;
 }
+
+.group-tab-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.add-group-btn {
+    background: #48bb78;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.add-group-btn:hover {
+    transform: scale(1.2);
+}
