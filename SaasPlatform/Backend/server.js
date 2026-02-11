@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const http = require('http');
+const { initSocket } = require('./socket');
 require('dotenv').config();
 
 const app = express();
+const server = http.createServer(app);
 
 // Middlewares
 app.use(cors());
@@ -26,5 +29,8 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => console.log(err));
 
+// Initialize Socket.io
+initSocket(server);
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server on ${PORT}`));
+server.listen(PORT, () => console.log(`🚀 Server on ${PORT}`));

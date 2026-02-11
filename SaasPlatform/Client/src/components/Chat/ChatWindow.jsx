@@ -5,7 +5,7 @@ import ChatHeader from './ChatHeader';
 import ChatMessage from './ChatMessage';
 import ChatFooter from './ChatFooter';
 
-const ChatWindow = ({ receiver, onClose, currentUserId }) => {
+const ChatWindow = ({ receiver, onClose, currentUserId, socket }) => {
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState('');
     const messagesEndRef = useRef(null);
@@ -31,6 +31,18 @@ const ChatWindow = ({ receiver, onClose, currentUserId }) => {
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
+
+    useEffect(() => {
+        if (socket) {
+            socket.on("getMessage", (newMessage) => {
+                // If the incoming message belongs to the currently open chat
+                if (newMessage.sender._id === receiver?._id || newMessage.receiverGroup === receiver?._id) {
+                    setMessages(prev => [...prev, newMessage]);
+                }
+            });
+        }
+        return () => socket?.off("getMessage");
+    }, [socket, receiver]);
 
     const sendMessage = async (e) => {
         e.preventDefault();

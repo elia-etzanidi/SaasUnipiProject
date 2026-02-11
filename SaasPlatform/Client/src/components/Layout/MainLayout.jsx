@@ -6,9 +6,12 @@ import ChatWindow from '../Chat/ChatWindow.jsx';
 import Navbar from './Navbar.jsx';
 import Sidebar from './Sidebar.jsx';
 import CreateGroupModal from '../CreateGroup/CreateGroupModal';
+import { io } from 'socket.io-client';
+import { toast, ToastContainer } from 'react-toastify';
 
 const MainLayout = () => {
     const [user, setUser] = useState(null);
+    const [socket, setSocket] = useState(null);
     const [activeTab, setActiveTab] = useState('friends');
     const [searchQuery, setSearchQuery] = useState('');
     const [activeChat, setActiveChat] = useState(null);
@@ -52,6 +55,38 @@ const MainLayout = () => {
         setShowGroupModal(false);
     };
 
+    // CONNECTION TO SOCKET.IO SERVER
+    useEffect(() => {
+        const newSocket = io("http://localhost:5000");
+        setSocket(newSocket);
+
+        return () => newSocket.close(); // Clean on unmount
+    }, []);
+
+    // Verify user is authenticated before emitting addUser
+    useEffect(() => {
+        if (socket && user) {
+            socket.emit("addUser", user._id);
+        }
+    }, [socket, user]);
+
+    // LISTEN FOR NOTIFICATIONS
+    useEffect(() => {
+        if (socket) {
+            socket.on("notification", (data) => {
+                console.log("Notification data received:", data);
+                toast.info(
+                    <div>
+                        <strong>{data.title}</strong>
+                        <p>{data.text}</p>
+                    </div>, 
+                    { position: "top-right", autoClose: 4000 }
+                );
+            });
+        }
+        return () => socket?.off("notification");
+    }, [socket]);
+
     return (
         <div className="layout-wrapper">
             <Navbar 
@@ -73,8 +108,14 @@ const MainLayout = () => {
                 />
 
                 <main className="main-content">
-                    <Outlet context={setActiveChat} />
+                    <Outlet context={{ setActiveChat, socket }} />
                 </main>
+
+                <ToastContainer 
+                    position="top-right" 
+                    autoClose={4000} 
+                    hideProgressBar={false}
+                />
 
                 {showGroupModal && (
                     <CreateGroupModal 
@@ -88,6 +129,7 @@ const MainLayout = () => {
                     receiver={activeChat} 
                     onClose={() => setActiveChat(null)} 
                     currentUserId={user?._id}
+                    socket={socket}
                 />
             </div>
         </div>

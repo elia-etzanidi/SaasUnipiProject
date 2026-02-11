@@ -1,6 +1,7 @@
 const Message = require('../models/Message');
 const Group = require('../models/Group');
 const User = require('../models/User');
+const { getIO, getOnlineUsers } = require('../socket');
 
 // SEND MESSAGE
 exports.sendMessage = async (req, res) => {
@@ -18,6 +19,40 @@ exports.sendMessage = async (req, res) => {
 
         const savedMessage = await newMessage.save();
         const populatedMessage = await Message.findById(savedMessage._id).populate('sender', 'fullName');
+
+        // --- SOCKET LOGIC ---
+        const io = getIO();
+        const onlineUsers = getOnlineUsers();
+        const senderName = populatedMessage.sender.fullName;
+
+        if (groupId) {
+            const group = await Group.findById(groupId);
+            if (group) {
+                group.members.forEach(memberId => {
+                    if (String(memberId) !== String(req.user.id)) {
+                        const onlineMember = onlineUsers.find(u => String(u.userId) === String(memberId));
+                        if (onlineMember) {
+                            io.to(onlineMember.socketId).emit('getMessage', populatedMessage);
+                            io.to(onlineMember.socketId).emit('notification', {
+                                title: `New message in ${group.name}`,
+                                text: `${senderName}: ${text}`
+                            });
+                        }
+                    }
+                });
+            }
+        } else {
+            const onlineReceiver = onlineUsers.find(u => String(u.userId) === String(receiver));
+            if (onlineReceiver) {
+                io.to(onlineReceiver.socketId).emit('getMessage', populatedMessage);
+                io.to(onlineReceiver.socketId).emit('notification', {
+                    title: `New message from ${senderName}`,
+                    text: text
+                });
+            }
+        }
+        // ----------------------
+
         res.json(populatedMessage);
     } catch (err) {
         res.status(500).send('Server Error');
@@ -45,11 +80,10 @@ exports.getGroupChat = async (req, res) => {
         const { groupId } = req.params;
 
         const messages = await Message.find({ receiverGroup: groupId })
-            // Αντί για 'sender', δοκίμασε να περάσεις το αντικείμενο 
-            // για να μην ψάχνει το registered name
+            // Pass the User model directly to populate
             .populate({
                 path: 'sender',
-                model: User, // Εδώ δίνουμε απευθείας το μοντέλο
+                model: User,
                 select: 'fullName'
             })
             .sort({ createdAt: 1 });
