@@ -72,6 +72,7 @@ const MainLayout = () => {
                 <ChatWindow 
                     receiver={activeChat} 
                     onClose={() => setActiveChat(null)} 
+                    currentUserId={user?._id}
                 />
             </div>
         </div>

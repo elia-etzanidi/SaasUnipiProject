@@ -18,6 +18,8 @@ const searchRoutes = require('./routes/search.route');
 app.use('/api/search', searchRoutes);
 const messageRoutes = require('./routes/message.route');
 app.use('/api/messages', messageRoutes);
+const groupRoutes = require('./routes/group.route');
+app.use('/api/groups', groupRoutes);
 
 // connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

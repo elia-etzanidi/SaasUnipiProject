@@ -7,8 +7,7 @@ const MessageSchema = new mongoose.Schema({
     },
     receiver: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'user', 
-        required: true 
+        ref: 'user',
     },
     text: { 
         type: String, 
@@ -20,7 +19,11 @@ const MessageSchema = new mongoose.Schema({
     createdAt: { 
         type: Date, 
         default: Date.now 
-    }
+    },
+    receiverGroup: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'group' 
+    },
 });
 
 module.exports = mongoose.model('message', MessageSchema);

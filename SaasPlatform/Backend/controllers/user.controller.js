@@ -129,9 +129,12 @@ exports.getMe = async (req, res) => {
     try {
         const user = await User.findById(req.user.id)
             .select('-password')
-            .populate('contacts', 'fullName');
+            .populate({
+                path: 'contacts',
+                model: User,
+                select: 'fullName'
+            });
         
-        // check if user exists
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
         }
@@ -139,7 +142,7 @@ exports.getMe = async (req, res) => {
         return res.json(user);
 
     } catch (err) {
-        console.error(err.message);
+        console.error("Error in getMe:", err.message);
         return res.status(500).send('Server Error');
     }
 };

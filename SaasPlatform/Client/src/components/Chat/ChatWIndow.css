@@ -54,12 +54,17 @@
 
 .msg-received {
     align-self: flex-start;
-    background: white;
+    max-width: 80%;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.msg-received .bubble {
+    background: #ffffff;
     color: #4a5568;
     padding: 8px 12px;
     border-radius: 12px 12px 12px 0;
-    max-width: 80%;
-    font-size: 0.9rem;
     border: 1px solid #edf2f7;
 }
 
@@ -76,4 +81,30 @@
     border: 1px solid #e2e8f0;
     border-radius: 6px;
     outline: none;
+}
+
+.sender-name-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #718096;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    font-weight: 600;
+}
+
+.msg-sent {
+    align-self: flex-end;
+    max-width: 80%;
+    font-size: 0.9rem;
+}
+
+.msg-sent .bubble {
+    background: #ebf4ff;
+    color: #2c5282;
+    border-radius: 12px 12px 0 12px;
+}
+
+/* Σιγουρέψου ότι δεν υπάρχει background στο κείμενο */
+.bubble span {
+    background: transparent !important;
 }

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const PostSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User' // Reference to the User model
+        ref: 'user'
     },
     author: {
         type: String,
@@ -16,7 +16,7 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    tags: [String], // Array of strings for tags
+    tags: [String],
     date: {
         type: Date,
         default: Date.now

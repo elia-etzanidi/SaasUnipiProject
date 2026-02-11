@@ -1,4 +1,23 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 const Sidebar = ({ user, activeTab, setActiveTab, onUserClick, onAddGroup, navigate }) => {
+    const [groups, setGroups] = useState([]);
+
+    useEffect(() => {
+        const fetchGroups = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/groups', {
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+                setGroups(res.data);
+            } catch (err) {
+                console.error("Error fetching groups", err);
+            }
+        };
+        fetchGroups();
+    }, []); // Load groups once when the component mounts
+
     return (
         <aside className="sidebar">
             <nav className="sidebar-nav">
@@ -42,10 +61,10 @@ const Sidebar = ({ user, activeTab, setActiveTab, onUserClick, onAddGroup, navig
                             ))
                         ) : <p className="empty-msg">No friends yet.</p>
                     ) : (
-                        ['React Developers', 'Node Enthusiasts'].map((group, i) => (
-                            <div key={i} className="user-item">
+                        groups.map((group) => (
+                            <div key={group._id} className="user-item" onClick={() => onUserClick(group)}>
                                 <div className="avatar-small square"></div>
-                                <span>{group}</span>
+                                <span>{group.name}</span>
                             </div>
                         ))
                     )}
