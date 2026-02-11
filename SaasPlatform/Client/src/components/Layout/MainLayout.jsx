@@ -74,18 +74,23 @@ const MainLayout = () => {
     useEffect(() => {
         if (socket) {
             socket.on("notification", (data) => {
-                console.log("Notification data received:", data);
-                toast.info(
-                    <div>
-                        <strong>{data.title}</strong>
-                        <p>{data.text}</p>
-                    </div>, 
-                    { position: "top-right", autoClose: 4000 }
-                );
+                const isChatOpen = 
+                    (activeChat?._id && data.senderId && String(activeChat._id) === String(data.senderId)) || 
+                    (activeChat?._id && data.groupId && String(activeChat._id) === String(data.groupId));
+
+                if (!isChatOpen) {
+                    toast.info(
+                        <div>
+                            <strong>{data.title}</strong>
+                            <p>{data.text}</p>
+                        </div>, 
+                        { position: "top-right", autoClose: 4000 }
+                    );
+                }
             });
         }
         return () => socket?.off("notification");
-    }, [socket]);
+    }, [socket, activeChat]);
 
     return (
         <div className="layout-wrapper">

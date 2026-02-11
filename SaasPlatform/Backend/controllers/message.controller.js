@@ -27,6 +27,7 @@ exports.sendMessage = async (req, res) => {
 
         if (groupId) {
             const group = await Group.findById(groupId);
+            // Case Group Message
             if (group) {
                 group.members.forEach(memberId => {
                     if (String(memberId) !== String(req.user.id)) {
@@ -35,19 +36,22 @@ exports.sendMessage = async (req, res) => {
                             io.to(onlineMember.socketId).emit('getMessage', populatedMessage);
                             io.to(onlineMember.socketId).emit('notification', {
                                 title: `New message in ${group.name}`,
-                                text: `${senderName}: ${text}`
+                                text: `${senderName}: ${text}`,
+                                groupId: String(groupId),
                             });
                         }
                     }
                 });
             }
         } else {
+            // Case Direct Message
             const onlineReceiver = onlineUsers.find(u => String(u.userId) === String(receiver));
             if (onlineReceiver) {
                 io.to(onlineReceiver.socketId).emit('getMessage', populatedMessage);
                 io.to(onlineReceiver.socketId).emit('notification', {
                     title: `New message from ${senderName}`,
-                    text: text
+                    text: text, 
+                    senderId: String(req.user.id)
                 });
             }
         }

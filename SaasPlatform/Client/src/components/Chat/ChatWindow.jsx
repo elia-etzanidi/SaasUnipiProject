@@ -33,16 +33,31 @@ const ChatWindow = ({ receiver, onClose, currentUserId, socket }) => {
     }, [messages]);
 
     useEffect(() => {
-        if (socket) {
-            socket.on("getMessage", (newMessage) => {
-                // If the incoming message belongs to the currently open chat
-                if (newMessage.sender._id === receiver?._id || newMessage.receiverGroup === receiver?._id) {
-                    setMessages(prev => [...prev, newMessage]);
-                }
-            });
-        }
-        return () => socket?.off("getMessage");
-    }, [socket, receiver]);
+        if (!socket || !receiver?._id) return;
+
+        const handleNewMessage = (newMessage) => {
+            // find sender's name for notifications
+            const incomingSenderId = newMessage.sender._id || newMessage.sender;
+            
+            // avoid showing notification for messages sent by the current user
+            if (String(incomingSenderId) === String(currentUserId)) return;
+
+            // check if the incoming message belongs to the currently open chat
+            const isCurrentGroup = newMessage.receiverGroup === receiver._id;
+            const isCurrentDirect = !newMessage.receiverGroup && String(incomingSenderId) === String(receiver._id);
+
+            if (isCurrentGroup || isCurrentDirect) {
+                setMessages((prev) => [...prev, newMessage]);
+            }
+        };
+
+        socket.on("getMessage", handleNewMessage);
+
+        // remove listener on cleanup to prevent memory leaks
+        return () => {
+            socket.off("getMessage", handleNewMessage);
+        };
+    }, [socket, receiver?._id, currentUserId]);
 
     const sendMessage = async (e) => {
         e.preventDefault();
@@ -56,7 +71,7 @@ const ChatWindow = ({ receiver, onClose, currentUserId, socket }) => {
             const res = await axios.post('http://localhost:5000/api/messages', payload, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
-            setMessages([...messages, res.data]);
+            setMessages(prev => [...prev, res.data]);
             setText('');
         } catch (err) { console.error(err); }
     };
