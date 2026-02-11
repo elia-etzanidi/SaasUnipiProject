@@ -39,6 +39,12 @@ const MainLayout = () => {
         }
     };
 
+    const handleGroupCreated = (newGroup) => {
+        setActiveTab('groups');
+        setActiveChat(newGroup);
+        setShowGroupModal(false);
+    };
+
     return (
         <div className="layout-wrapper">
             <Navbar 
@@ -65,7 +71,8 @@ const MainLayout = () => {
                 {showGroupModal && (
                     <CreateGroupModal 
                         friends={user?.contacts || []} 
-                        onClose={() => setShowGroupModal(false)} 
+                        onClose={() => setShowGroupModal(false)}
+                        onGroupCreated={handleGroupCreated} // <--- Περνάμε το νέο prop
                     />
                 )}
 

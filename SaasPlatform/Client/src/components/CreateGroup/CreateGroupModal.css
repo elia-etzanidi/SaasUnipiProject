@@ -134,3 +134,11 @@
     background: #2c5282;
     transform: translateY(-1px);
 }
+
+.no-msgs {
+    text-align: center;
+    color: #a0aec0;
+    font-size: 0.85rem;
+    margin-top: 20px;
+    font-style: italic;
+}

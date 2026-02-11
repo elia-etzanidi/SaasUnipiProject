@@ -25,7 +25,7 @@ const CreateGroupModal = ({ friends, onClose }) => {
             }, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
-            onClose();
+            onGroupCreated(res.data);
             window.location.reload(); // Refresh to show the new group in the sidebar
         } catch (err) {
             console.error("Error creating group", err);
@@ -51,12 +51,12 @@ const CreateGroupModal = ({ friends, onClose }) => {
                             <div 
                                 key={friend._id} 
                                 className="friend-checkbox-item"
-                                onClick={() => toggleFriend(friend._id)} // Πάτημα σε όλο το row
+                                onClick={() => toggleFriend(friend._id)}
                             >
                                 <input 
                                     type="checkbox" 
                                     checked={selectedFriends.includes(friend._id)}
-                                    readOnly // Το ελέγχουμε από το div click
+                                    readOnly
                                 />
                                 <label>{friend.fullName}</label>
                             </div>
