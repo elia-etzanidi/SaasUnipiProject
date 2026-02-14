@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  title: To Do List API
+  description: API documentation for the To Do List API.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local server
+paths:
+  /healthz:
+    get:
+      summary: Health check endpoint
+      description: Returns the health status of the API.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
