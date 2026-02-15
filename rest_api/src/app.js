@@ -5,6 +5,7 @@ const swaggerUi = require('swagger-ui-express');
 const path = require('path');
 
 const authRoutes = require('./api/routes/authRoutes');
+const todoRoutes = require('./api/routes/todoRoutes');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 // Routes
 app.use('/', authRoutes);
+app.use('/todos', todoRoutes);
 
 // Swagger Documentation
 const swaggerDocument = yaml.load(path.join(__dirname, 'swagger.yaml'));

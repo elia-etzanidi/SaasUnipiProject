@@ -1,0 +1,342 @@
+{
+  "meta": {
+    "format": "httpie",
+    "version": "1.0.0",
+    "contentType": "collection",
+    "schema": "https://schema.httpie.io/1.0.0.json",
+    "docs": "https://httpie.io/r/help/export-from-httpie",
+    "source": "HTTPie Desktop 2025.2.0"
+  },
+  "entry": {
+    "name": "To Do List API",
+    "icon": {
+      "name": "default",
+      "color": "blue"
+    },
+    "auth": {
+      "type": "none"
+    },
+    "requests": [
+      {
+        "name": "Health Check",
+        "url": "http://localhost:3000/healthz",
+        "method": "GET",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "inherited"
+        },
+        "body": {
+          "type": "none",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Signup",
+        "url": "http://localhost:3000/signup",
+        "method": "POST",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "inherited"
+        },
+        "body": {
+          "type": "text",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "{\n  \"email\": \"test3@email.com\",\n  \"username\": \"testuser3\",\n  \"password\": \"pass\"\n}",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Login",
+        "url": "http://localhost:3000/auth/login",
+        "method": "POST",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "inherited"
+        },
+        "body": {
+          "type": "text",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "{\n  \"email\": \"test3@email.com\",\n  \"password\": \"pass\"\n}",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Refresh Token",
+        "url": "http://localhost:3000/auth/refresh",
+        "method": "POST",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "inherited"
+        },
+        "body": {
+          "type": "text",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "{\n  \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzE5LCJleHAiOjE3NzE3NzQ1MTl9.V6wJf38oMyF2po8gI6PagSxKN-UvIuyXaZAYP3M4lpo\"\n}",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Logout",
+        "url": "http://localhost:3000/auth/logout",
+        "method": "GET",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "none",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "List Todos",
+        "url": "http://localhost:3000/todos",
+        "method": "GET",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "none",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Create Todo",
+        "url": "http://localhost:3000/todos",
+        "method": "POST",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "text",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "{\n  \"name\": \"Finish API tests\",\n  \"completed\": false\n}",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Get Todo by ID",
+        "url": "http://localhost:3000/todos/c9fdc648-44ab-4a01-b5b2-423a5afdb052",
+        "method": "GET",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "none",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Update Todo",
+        "url": "http://localhost:3000/todos/3eaba5c0-07f3-4c07-9395-0b446dab7726",
+        "method": "PUT",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "text",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "{\n  \"name\": \"Finish API tests updated\",\n  \"completed\": true\n}",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Delete Todo",
+        "url": "http://localhost:3000/todos/3eaba5c0-07f3-4c07-9395-0b446dab7726",
+        "method": "DELETE",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "none",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      }
+    ]
+  }
+}

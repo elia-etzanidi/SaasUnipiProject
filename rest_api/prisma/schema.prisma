@@ -18,4 +18,13 @@ model User {
   username  String   @unique
   password  String
   createdAt DateTime @default(now())
+  todos     Todo[]
+}
+
+model Todo {
+  id        String  @id @default(uuid())
+  name      String
+  completed Boolean @default(false)
+  user_id   String
+  user      User    @relation(fields: [user_id], references: [id])
 }

@@ -9,6 +9,8 @@ tags:
     description: Operations related to user registration and authentication
   - name: health
     description: API status and monitoring
+  - name: todos
+    description: Operations related to managing todos
 
 servers:
   - url: http://localhost:3000
@@ -144,7 +146,144 @@ paths:
         '400':
           description: Invalid refresh token
 
+
+  /todos:
+    get:
+      summary: List all todos
+      tags:
+        - todos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+    post:
+      summary: Create a new todo
+      tags:
+        - todos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Todo created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '400':
+          description: Invalid input
+
+  /todos/{id}:
+    get:
+      summary: Get a todo by ID
+      tags:
+        - todos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo to get
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '404':
+          description: Todo not found
+    put:
+      summary: Update a todo by ID
+      tags:
+        - todos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                completed:
+                  type: boolean
+      responses:
+        '200':
+          description: Todo updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '404':
+          description: Todo not found
+    delete:
+      summary: Delete a todo by ID
+      tags:
+        - todos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo to delete
+      responses:
+        '204':
+          description: Todo deleted
+        '404':
+          description: Todo not found
+
 components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        completed:
+          type: boolean
+        user_id:
+          type: string
+          format: uuid
+
   securitySchemes:
     bearerAuth:
       type: http
