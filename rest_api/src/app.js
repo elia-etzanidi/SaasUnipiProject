@@ -4,11 +4,16 @@ const yaml = require('yamljs');
 const swaggerUi = require('swagger-ui-express');
 const path = require('path');
 
+const authRoutes = require('./api/routes/authRoutes');
+
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Routes
+app.use('/', authRoutes);
 
 // Swagger Documentation
 const swaggerDocument = yaml.load(path.join(__dirname, 'swagger.yaml'));

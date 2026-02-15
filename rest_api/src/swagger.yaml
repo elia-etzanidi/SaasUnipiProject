@@ -3,14 +3,24 @@ info:
   title: To Do List API
   description: API documentation for the To Do List API.
   version: 1.0.0
+
+tags:
+  - name: auth
+    description: Operations related to user registration and authentication
+  - name: health
+    description: API status and monitoring
+
 servers:
   - url: http://localhost:3000
     description: Local server
+
 paths:
   /healthz:
     get:
       summary: Health check endpoint
       description: Returns the health status of the API.
+      tags:
+        - health
       responses:
         '200':
           description: Successful response
@@ -25,3 +35,118 @@ paths:
                   timestamp:
                     type: string
                     format: date-time
+
+  /signup:
+    post:
+      summary: Register a new user
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - username
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          description: Invalid input
+
+  /auth/login:
+    post:
+      summary: Login user
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  token:
+                    type: string
+                  refreshToken:
+                    type: string
+        '401':
+          description: Unauthorized
+
+  /auth/logout:
+    get:
+      summary: Logout user
+      tags:
+        - auth
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logged out successfully
+        '401':
+          description: Unauthorized - Missing or invalid token
+
+  /auth/refresh:
+    post:
+      summary: Refresh access token
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Token refreshed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: Invalid refresh token
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
