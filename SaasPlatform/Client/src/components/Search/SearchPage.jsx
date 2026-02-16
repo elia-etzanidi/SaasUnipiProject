@@ -13,7 +13,7 @@ const SearchPage = () => {
     const [currentUser, setCurrentUser] = useState(null);
     const [activeTab, setActiveTab] = useState('posts'); // Default to showing posts
     const [loading, setLoading] = useState(true);
-    const setActiveChat = useOutletContext();
+    const { setActiveChat } = useOutletContext();
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -86,10 +86,12 @@ const SearchPage = () => {
                             <PostItem 
                                 key={post._id} 
                                 {...post} 
-                                // Ασφαλής πρόσβαση στο ID του χρήστη που έκανε το post
+                                author={post.user?.fullName || "Unknown"}
                                 postUserId={post.user?._id || post.user} 
                                 currentUserId={currentUser?._id}
                                 currentUserContacts={currentUser?.contacts}
+                                openChat={handleMessageClick} 
+                                authorFullObject={post.user}
                             />
                         ))
                     ) : <p>No posts found with this tag.</p>

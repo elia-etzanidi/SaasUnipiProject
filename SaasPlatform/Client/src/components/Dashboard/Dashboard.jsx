@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [posts, setPosts] = useState([]);
     const [user, setUser] = useState(null);
     const token = localStorage.getItem('token');
-    const setActiveChat = useOutletContext();
+    const { setActiveChat } = useOutletContext();
 
     // Fetch all posts when the page loads
     useEffect(() => {

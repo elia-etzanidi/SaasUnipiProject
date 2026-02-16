@@ -52,7 +52,11 @@ const PostItem = ({ author, handle, content, tags, postUserId, currentUserId, cu
                         {isFollowing ? (
                             <button 
                                 className="action-btn message" 
-                                onClick={() => openChat(authorFullObject)}
+                                onClick={() => { 
+                                    const chatData = typeof authorFullObject === 'object' 
+                                        ? authorFullObject 
+                                        : { _id: authorFullObject, fullName: author };
+                                    openChat(chatData);}}
                             >
                                 Message
                             </button>
