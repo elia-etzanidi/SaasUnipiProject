@@ -99,6 +99,7 @@ const MainLayout = () => {
                 setSearchQuery={setSearchQuery} 
                 onSearch={handleSearch} 
                 onLogout={handleLogout} 
+                navigate={navigate}
             />
 
             <div className="layout-body">

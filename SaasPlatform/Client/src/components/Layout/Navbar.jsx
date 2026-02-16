@@ -1,7 +1,9 @@
-const Navbar = ({ searchQuery, setSearchQuery, onSearch, onLogout }) => {
+const Navbar = ({ searchQuery, setSearchQuery, onSearch, onLogout, navigate }) => {
     return (
         <header className="top-bar">
-            <div className="logo">All Devs Feed</div>
+            <div className="logo" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
+                All Devs Feed
+            </div>
             <div className="search-container">
                 <input 
                     type="text" 

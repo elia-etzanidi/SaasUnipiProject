@@ -208,3 +208,47 @@
 .add-group-btn:hover {
     transform: scale(1.2);
 }
+
+.sidebar-user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sidebar-user-card:hover {
+    background-color: #f5f5f5;
+}
+
+.avatar-large {
+    width: 60px;
+    height: 60px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.user-info-text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.user-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.user-email {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* Home button cursor */
+.logo {
+    cursor: pointer;
+}

@@ -20,13 +20,13 @@ const Sidebar = ({ user, activeTab, setActiveTab, onUserClick, onAddGroup, navig
 
     return (
         <aside className="sidebar">
-            <nav className="sidebar-nav">
-                <ul>
-                    <li onClick={() => navigate('/dashboard')}>Home</li>
-                    <li onClick={() => navigate('/profile')}>Profile</li>
-                    <li onClick={() => navigate('/settings')}>Settings</li>
-                </ul>
-            </nav>
+            <div className="sidebar-user-card">
+                <div className="avatar-large"></div>
+                <div className="user-info-text">
+                    <span className="user-name">{user?.fullName || "Loading..."}</span>
+                    <span className="user-email">{user?.email}</span>
+                </div>
+            </div>
             
             <div className="community-section">
                 <h3>Community</h3>

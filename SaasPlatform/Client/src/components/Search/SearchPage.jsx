@@ -101,6 +101,7 @@ const SearchPage = () => {
                             <UserCard 
                                 key={user._id} 
                                 user={user} 
+                                isMe={String(currentUser?._id) === String(user._id)}
                                 isFriend={currentUser?.contacts?.some(c => (c._id || c) === user._id)}
                                 onFollow={() => handleFollow(user._id)}
                                 onMessage={() => handleMessageClick(user)}
