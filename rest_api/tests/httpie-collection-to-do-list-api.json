@@ -336,6 +336,142 @@
             "variables": ""
           }
         }
+      },
+      {
+        "name": "Create Todo Item",
+        "url": "http://localhost:3000/todos/c9fdc648-44ab-4a01-b5b2-423a5afdb052/items",
+        "method": "POST",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "text",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "{\n  \"name\": \"Water the plants\",\n  \"completed\": false\n}",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Get Todo Item by ID",
+        "url": "http://localhost:3000/todos/c9fdc648-44ab-4a01-b5b2-423a5afdb052/items/d9fdc648-44ab-4a01-b5b2-423a5afdb052",
+        "method": "GET",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "none",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Update Todo Item",
+        "url": "http://localhost:3000/todos/c9fdc648-44ab-4a01-b5b2-423a5afdb052/items/d9fdc648-44ab-4a01-b5b2-423a5afdb052",
+        "method": "PUT",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "text",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "{\n  \"name\": \"Water the plants updated\",\n  \"completed\": true\n}",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Delete Todo Item",
+        "url": "http://localhost:3000/todos/c9fdc648-44ab-4a01-b5b2-423a5afdb052/items/d9fdc648-44ab-4a01-b5b2-423a5afdb052",
+        "method": "DELETE",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "bearer",
+          "credentials": {
+            "username": "",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWMzYmUzLTJmN2YtNGZmYi1iZGFkLTI0NWMwMTc1MGE2NyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwiaWF0IjoxNzcxMTY5NzM0LCJleHAiOjE3NzExNzMzMzR9.6u2EgJ6j49qaD9Xbi8hykVm_BxvEpqUD-NG2Et1p2vk"
+          },
+          "target": "headers"
+        },
+        "body": {
+          "type": "none",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
       }
     ]
   }

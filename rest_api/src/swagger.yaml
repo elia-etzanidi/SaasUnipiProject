@@ -268,6 +268,141 @@ paths:
         '404':
           description: Todo not found
 
+  /todos/{id}/items:
+    post:
+      summary: Create a new todo item
+      tags:
+        - todos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Todo item created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+        '404':
+          description: Todo not found
+
+  /todos/{id}/items/{iid}:
+    get:
+      summary: Get a todo item by ID
+      tags:
+        - todos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo
+        - in: path
+          name: iid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo item
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+        '404':
+          description: Todo item not found
+    put:
+      summary: Update a todo item by ID
+      tags:
+        - todos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo
+        - in: path
+          name: iid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                completed:
+                  type: boolean
+      responses:
+        '200':
+          description: Todo item updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+        '404':
+          description: Todo item not found
+    delete:
+      summary: Delete a todo item by ID
+      tags:
+        - todos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo
+        - in: path
+          name: iid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the todo item
+      responses:
+        '204':
+          description: Todo item deleted
+        '404':
+          description: Todo item not found
+
 components:
   schemas:
     Todo:
@@ -281,6 +416,23 @@ components:
         completed:
           type: boolean
         user_id:
+          type: string
+          format: uuid
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TodoItem'
+    TodoItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        completed:
+          type: boolean
+        todo_id:
           type: string
           format: uuid
 

@@ -22,9 +22,18 @@ model User {
 }
 
 model Todo {
+  id        String     @id @default(uuid())
+  name      String
+  completed Boolean    @default(false)
+  user_id   String
+  user      User       @relation(fields: [user_id], references: [id])
+  items     TodoItem[]
+}
+
+model TodoItem {
   id        String  @id @default(uuid())
   name      String
   completed Boolean @default(false)
-  user_id   String
-  user      User    @relation(fields: [user_id], references: [id])
+  todo_id   String
+  todo      Todo    @relation(fields: [todo_id], references: [id], onDelete: Cascade)
 }

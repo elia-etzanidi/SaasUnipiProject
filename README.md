@@ -60,6 +60,7 @@ The API documentation is available via Swagger UI at:
 
 - `http://localhost:3000/api-docs`
 
-### Health Check
+### Testing
 
-- `GET /healthz` - Returns the API status.
+> [!IMPORTANT]
+> The HTTPie tests in `rest_api/tests/httpie-collection-to-do-list-api.json` need to be updated with valid UUIDs and Auth Tokens from your current session to work correctly.
