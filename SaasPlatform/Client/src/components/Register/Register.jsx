@@ -48,7 +48,7 @@ const Register = () => {
 
             localStorage.setItem('token', res.data.token);
 
-            // Αν ο χρήστης είναι νέος, πρέπει να συμπληρώσει τα interests/courses
+            // If it's a new user, redirect to complete profile, otherwise go to dashboard
             if (res.data.isNewUser) {
                 navigate('/complete-profile');
             } else {

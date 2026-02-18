@@ -7,13 +7,17 @@ import './SearchPage.css';
 import { useOutletContext } from 'react-router-dom';
 
 const SearchPage = () => {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const query = searchParams.get('q'); // Takes q from url /search?q=react
     const [results, setResults] = useState({ users: [], posts: [] });
     const [currentUser, setCurrentUser] = useState(null);
-    const [activeTab, setActiveTab] = useState('posts'); // Default to showing posts
+    const activeTab = searchParams.get('tab') || 'posts';
     const [loading, setLoading] = useState(true);
     const { setActiveChat } = useOutletContext();
+
+    const handleTabChange = (tabName) => {
+        setSearchParams({ q: query, tab: tabName });
+    };
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -48,6 +52,7 @@ const SearchPage = () => {
             
             // Update current user data to reflect new follow status
             setCurrentUser(res.data.user); 
+            window.location.reload();
         } catch (err) {
             console.error("Follow error:", err);
         }
@@ -67,13 +72,13 @@ const SearchPage = () => {
             <div className="search-tabs">
                 <button 
                     className={activeTab === 'posts' ? 'tab-btn active' : 'tab-btn'} 
-                    onClick={() => setActiveTab('posts')}
+                    onClick={() => handleTabChange('posts')}
                 >
                     Posts ({results.posts.length})
                 </button>
                 <button 
                     className={activeTab === 'users' ? 'tab-btn active' : 'tab-btn'} 
-                    onClick={() => setActiveTab('users')}
+                    onClick={() => handleTabChange('users')}
                 >
                     People ({results.users.length})
                 </button>

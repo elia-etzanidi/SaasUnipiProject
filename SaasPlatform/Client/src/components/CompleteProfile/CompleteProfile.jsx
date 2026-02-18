@@ -16,7 +16,7 @@ const CompleteProfile = () => {
         };
 
         try {
-            // Ένα PUT request για να ενημερώσουμε τον νέο χρήστη
+            // put request to update user profile
             await axios.put('http://localhost:5000/api/users/profile', finalData, {
                 headers: { 'x-auth-token': token }
             });
