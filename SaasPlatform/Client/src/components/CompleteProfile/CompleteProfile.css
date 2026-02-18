@@ -1,0 +1,36 @@
+.complete-profile-steps {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.step-badge {
+    color: #4a5568;
+    background: #edf2f7;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+.complete-profile-steps h2 {
+    color: #2d3748;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+.complete-profile-steps p {
+    color: #718096;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}

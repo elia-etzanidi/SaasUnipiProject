@@ -1,0 +1,254 @@
+.layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px 15px 8px 35px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    background-color: #f7fafc;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.search-input:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: #a0aec0;
+    pointer-events: none;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #3182ce;
+}
+
+.logout-btn {
+    background-color: #feb2b2;
+    color: #9b2c2c;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #fc8181;
+}
+
+/* Body Container (Sidebar + Content) */
+.layout-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.sidebar-nav li {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #4a5568;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.sidebar-nav li:hover {
+    background-color: #edf2f7;
+    color: #3182ce;
+}
+
+.community-section h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #a0aec0;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05rem;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.5rem 0;
+    color: #4a5568;
+}
+
+.avatar-small {
+    width: 32px;
+    height: 32px;
+    background-color: #cbd5e0;
+    border-radius: 50%;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    background-color: #f7fafc;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+/* Community Tabs Container */
+.community-tabs {
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 1rem;
+}
+
+/* Base Tab Styling */
+.tab-item {
+    padding: 8px 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #718096;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.tab-item:hover {
+    color: #3182ce;
+}
+
+/* Active Tab with underline */
+.tab-item.active {
+    color: #3182ce;
+    font-weight: 600;
+}
+
+/* Line underneath the highlighted text */
+.tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3182ce;
+}
+
+.avatar-small.square {
+    border-radius: 4px; 
+    background-color: #a0aec0;
+}
+
+.group-tab-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.add-group-btn {
+    background: #48bb78;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.add-group-btn:hover {
+    transform: scale(1.2);
+}
+
+.sidebar-user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sidebar-user-card:hover {
+    background-color: #f5f5f5;
+}
+
+.avatar-large {
+    width: 60px;
+    height: 60px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.user-info-text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.user-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.user-email {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* Home button cursor */
+.logo {
+    cursor: pointer;
+}
